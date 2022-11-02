@@ -6,8 +6,7 @@ export const createCards = (id: string, count: number, ext: string) => {
     arr.push({
       id: `${id}_${i}`,
       img: `decks/${id}/${i + 1}.${ext}`,
-      // isSelected: true,
-      // isOpen: true,
+      zIndex: 1,
     });
   }
   return arr;

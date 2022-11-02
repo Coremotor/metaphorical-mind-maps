@@ -1,7 +1,12 @@
 <template>
   <div class="wrapper">
-    <div v-if="show" class="popup" @click.stop="toggleShowCard">
-      <div class="window" @click.stop>
+    <div
+      v-if="show"
+      class="popup"
+      @click.right.stop="toggleShowCard"
+      @contextmenu.prevent
+    >
+      <div class="window" @click.right.stop @contextmenu.prevent>
         <img class="image" :src="img" alt="card_image" />
       </div>
     </div>
@@ -65,18 +70,10 @@ export default defineComponent({
 }
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
-}
-.card {
-  cursor: pointer;
-  width: 200px;
-  height: 280px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  user-select: none;
+
 }
 .image {
   height: 100%;
@@ -84,18 +81,5 @@ export default defineComponent({
 .button {
   cursor: pointer;
   padding: 10px;
-}
-.unSelect {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  padding: 5px;
 }
 </style>

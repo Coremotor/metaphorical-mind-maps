@@ -11,7 +11,11 @@ export const useDeckStore = defineStore("deck", {
       this.deck = deck;
     },
     selectCard(card: Card) {
-      this.selectedCards.push(card);
+      this.selectedCards.push({
+        ...card,
+        top: 0,
+        left: this.selectedCards.length * 100,
+      });
     },
     unSelectCard(card: Card) {
       this.selectedCards = this.selectedCards.filter((c) => c.id !== card.id);
