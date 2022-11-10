@@ -73,7 +73,6 @@ export default defineComponent({
   flex-wrap: wrap;
   position: relative;
   user-select: none;
-
 }
 .image {
   height: 100%;

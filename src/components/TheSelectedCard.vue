@@ -1,5 +1,10 @@
 <template>
-  <div class="card-wrapper" ref="card" @mousedown="onMouseDown($event)">
+  <div
+    class="card-wrapper"
+    ref="card"
+    @mousedown="onMouseDown($event, card)"
+    :style="{ zIndex: card.zIndex }"
+  >
     <div class="card" @click.right.stop="toggle" @contextmenu.prevent>
       <img class="image" :src="card.img" alt="card_image" />
       <div class="unSelect" @click.stop="unSelectCard">
@@ -13,6 +18,8 @@
 import { defineComponent } from "vue";
 import type { Card } from "@/types/cards";
 import closeIcon from "@/assets/icons/icons8-close.svg";
+import { mapActions } from "pinia";
+import { useDeckStore } from "@/stores/deck";
 
 export default defineComponent({
   name: "TheSelectedCard",
@@ -43,19 +50,30 @@ export default defineComponent({
     },
   },
   methods: {
+    ...mapActions(useDeckStore, [
+      "showMovableCardOnTop",
+      "resetZIndex",
+      "saveCardPosition",
+    ]),
     toggle() {
       this.$emit("toggleShowCard", this.card?.img);
     },
     unSelectCard() {
       this.$emit("unSelectCard", this.card);
     },
-    onMouseDown(e: MouseEvent) {
+    onMouseDown(e: MouseEvent, card: Card) {
+      this.showMovableCardOnTop(card);
       this.pos3 = e.clientX;
       this.pos4 = e.clientY;
       document.onmousemove = this.elementDrag;
       document.onmouseup = this.onMouseUp;
     },
     onMouseUp() {
+      if (this.card) {
+        this.saveCardPosition(this.card, this.top, this.left);
+      }
+      console.log("top", this.top);
+      console.log("left", this.left);
       document.onmouseup = null;
       document.onmousemove = null;
     },
